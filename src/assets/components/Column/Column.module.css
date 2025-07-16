@@ -1,0 +1,67 @@
+.column-main {
+  display: flex;
+  flex-direction: column;
+  background: #e6ecf0;
+  border-radius: 15px;
+  width: 30%;
+  padding: 10px 0px 10px 10px;
+  align-items: center;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+  justify-content: space-between;
+  overflow-x: hidden;
+}
+
+.title {
+  font-size: 120%;
+  font-weight: 600;
+  margin: 10px;
+  align-self: start;
+}
+
+.secondary {
+  background: #e6ecf0;
+}
+
+.add-task-btn p {
+  font-size: 18px;
+  margin-left: 10px;
+}
+
+.add-task-form {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-task-area {
+  width: 100%;
+  min-height: 40px;
+  max-height: 100px;
+  border: none;
+  padding: 5px 0 0 10px;
+  font-size: 1rem;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  color: #5a5a5b;
+  overflow: hidden;
+  overflow-y: auto;
+  margin-bottom: 5px;
+}
+
+@media ( width <= 600px){
+  .column-main{
+    padding: 0;
+    width: 95%;
+  }
+}
+
+@media (600px < width < 1060px) {
+  .column-main{
+    padding: 0;
+    width: 70%;
+  }
+}
