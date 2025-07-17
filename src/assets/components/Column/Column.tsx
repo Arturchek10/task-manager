@@ -37,7 +37,7 @@ const InputForm = ({
       onChange={onChange}
     />
     <Button variant="contained" size="large" fullWidth onClick={onSubmit} style={{margin:"6px"}}>
-      добавить
+      add
     </Button>
   </>
 );
@@ -98,7 +98,7 @@ export default function Column({
             onClick={() => setInputFormActive(!inputFormActive)}
           >
             <PlusSvg stroke="#3D3E38" width="25px" height="25px" />
-            <p>add new task</p>
+            <p style={{margin: "10px"}}>add new task</p>
           </Button>
         )}
       </div>
