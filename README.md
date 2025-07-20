@@ -56,6 +56,11 @@
 - **TaskList** - все колонки
 ---
 
+## Ветки:
+
+- ✅ [`main`](https://github.com/Arturchek10/task-manager/tree/main) — первое ДЗ
+- ✅ [`dz-2`](https://github.com/Arturchek10/task-manager/tree/dz-2) — второе ДЗ 
+
 ## Как запустить проект
 
 1. Клонировать репозиторий:
