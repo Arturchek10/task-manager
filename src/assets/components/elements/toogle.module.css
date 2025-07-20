@@ -1,0 +1,46 @@
+.toggle-div{
+  display: flex;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;  
+
+}
+
+.label-toggle{
+  width: 60px;
+  height: 25px;
+  background-color: rgb(236, 236, 236);
+  display: flex;
+  align-items: center;
+  border-radius: 100px;
+  transition: 1s;
+  box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+}
+.label-toggle:after{
+  content: "";
+  width: 22px;
+  height: 22px;
+  border-radius: 100%;
+  position: absolute;
+  background-color: #ada9d3;
+  margin-left: 3px;
+  transition: 1s;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+.input-toggle{
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+
+.input-toggle:checked + .label-toggle{
+  background-color: #162521;
+}
+
+.input-toggle:checked + .label-toggle:after{
+  margin-left: 35px;
+  background-color: #453b9f;
+  transition: 1s;
+}

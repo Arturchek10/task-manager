@@ -19,7 +19,7 @@ type TaskListProps = {
 export default function TaskList({ allTasks, addTask }: TaskListProps) {
   const categories: string[] = ["To Do", "In Process", "Done"];
 
-  // все задачи 
+  // выбранная для редактирования
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
 

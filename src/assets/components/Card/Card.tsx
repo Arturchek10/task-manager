@@ -1,6 +1,9 @@
 import styles from "./Card.module.css";
-import EditIcon from "../../svg/edit.svg?react";
+import TrashIcon from "../../svg/trash.svg?react";
 import { Link } from "react-router-dom";
+import { useUnit } from "effector-react";
+import { $allTasks, deleteTask } from "../../store/tasks";
+import { $isDarkTheme } from "@/assets/store/theme";
 
 type Task = {
   id: number;
@@ -13,13 +16,21 @@ type Task = {
 
 type CardProps = {
   task: Task;
-  editTask: () => void;
+  editTaskProp: (task: Task) => void;
 };
 
-export default function Card({ task, editTask}: CardProps) {
+export default function Card({ task, editTaskProp }: CardProps) {
+
+  const [allTasks, deleteTaskFn] = useUnit([$allTasks, deleteTask]);
+  const isDark = useUnit($isDarkTheme)
+
   return (
-    <Link to={`/task/${task.id}`} style={{ textDecoration: "none" }}>
-      <div className={styles["card-main"]}>
+    <Link
+      to={`/task/${task.id}`}
+      style={{ textDecoration: "none" }}
+      onClick={() => editTaskProp(task)}
+    >
+      <div className={`${styles["card-main"]} ${isDark === "light" ? "" : styles["dark-card"]}`}>
         <div className={styles["title-description-div"]}>
           <div
             style={{
@@ -28,12 +39,19 @@ export default function Card({ task, editTask}: CardProps) {
               alignItems: "center",
             }}
           >
-            <p className={styles["task-title"]}>{task.title}</p>
+            <p className={`${styles["task-title"]} ${isDark === "light" ? "" : styles["title-dark"]}`}>{task.title}</p>
 
-            <EditIcon className={styles["edit-icon"]} />
+            <TrashIcon
+              className={styles["edit-icon"]}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                deleteTaskFn(task);
+              }}
+            />
           </div>
 
-          <p className={styles["task-description"]}>{task.description}</p>
+          <p className={`${styles["task-description"]} ${isDark === "light" ? "" : styles["description-dark"]}`}>{task.description}</p>
         </div>
 
         <div className={styles.info}>

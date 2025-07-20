@@ -16,6 +16,8 @@
     "@mui/material": "^7.2.0",
     "@types/jest": "^30.0.0",
     "@types/node": "^24.0.14",
+    "effector": "^23.4.1",
+    "effector-react": "^23.3.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.6.3"

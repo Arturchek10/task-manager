@@ -3,7 +3,11 @@ import Header from "./assets/components/Header/Header";
 import TaskList from "./assets/components/TaskList/TaskList";
 import styles from "./App.module.css";
 import EditTaskPage from "./assets/pages/EditTaskPage/EditTaskPage";
-import { useState } from "react";
+import { useUnit } from "effector-react";
+import { $allTasks, addTask, updateTask } from "./assets/store/tasks";
+import { $isDarkTheme } from "./assets/store/theme";
+import { useEffect } from "react";
+
 export default function App() {
   type Task = {
     id: number;
@@ -14,74 +18,36 @@ export default function App() {
     tag: string;
   };
 
-  const [allTasks, setAllTasks] = useState<Task[]>([
-    {
-      id: 1,
-      title: "Task 1",
-      description:
-        "Task 1 descriptionTask 1 descriptionTask 1 descriptionTask 1 description descriptionTask 1 descriptiondescriptionTask 1 descriptiondescriptionTask 1 description",
-      status: "To Do",
-      priority: "low",
-      tag: "Test",
-    },
-    {
-      id: 2,
-      title: "Task 2",
-      description: "Task 2 description",
-      status: "In Process",
-      priority: "medium",
-      tag: "Feature",
-    },
-    {
-      id: 3,
-      title: "Task 3",
-      description: "Task 3 description",
-      status: "In Process",
-      priority: "medium",
-      tag: "Feature",
-    },
-    {
-      id: 4,
-      title: "Task 4",
-      description: "Task 4 description",
-      status: "Done",
-      priority: "medium",
-      tag: "Feature",
-    },
-    {
-      id: 5,
-      title: "Task 5",
-      description: "Task 5 description",
-      status: "To Do",
-      priority: "medium",
-      tag: "Feature",
-    },
-    {
-      id: 6,
-      title: "Task 6",
-      description: "Task 5 description",
-      status: "To Do",
-      priority: "medium",
-      tag: "Feature",
-    },
+  const [allTasks, addTaskFn, updateTaskFn] = useUnit([
+    $allTasks,
+    addTask,
+    updateTask,
   ]);
-
-  function updateTask(updatedTask: Task){
-    setAllTasks(prev => prev.map(task => (task.id === updatedTask.id ? updatedTask : task)))
-  }
-
-  function addTask(newTask: Task){
-    setAllTasks(prev => [...prev, newTask])
-  }
+  const [isDark] = useUnit([$isDarkTheme]);
+  // сохранение в localStorage темы при изменении стора isDark
+  useEffect(() => {
+    localStorage.setItem("theme", isDark);
+  }, [isDark]);
 
   return (
     <BrowserRouter>
-      <div className={styles.main}>
+      {/* <div className={`${styles.main} ${isDark ? styles["dark-main"] : ""}`}> */}
+      <div className={`${styles.main} ${isDark === "light" ? "" : styles["dark-main"]}`}>
         <Header />
-        <div className={styles["list-wrapper"]}>
+        <div
+          className={`${styles["list-wrapper"]} ${ isDark === "light" ? "" : styles["dark-wrapper"]}`}
+        >
           <Routes>
-            <Route path="/" element={<TaskList allTasks={allTasks} addTask={addTask} />} />
-            <Route path="/task/:id" element={<EditTaskPage allTasks={allTasks} updateTask={updateTask}/>} />
+            <Route
+              path="/"
+              element={<TaskList allTasks={allTasks} addTask={addTaskFn} />}
+            />
+            <Route
+              path="/task/:id"
+              element={
+                <EditTaskPage allTasks={allTasks} updateTask={updateTaskFn} />
+              }
+            />
           </Routes>
         </div>
       </div>

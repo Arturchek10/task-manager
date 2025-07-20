@@ -12,6 +12,10 @@
   overflow-x: hidden;
 }
 
+.column-main-dark {
+  background: #444a65;
+}
+
 .title {
   font-size: 120%;
   font-weight: 600;
@@ -52,15 +56,25 @@
   margin-bottom: 5px;
 }
 
-@media ( width <= 600px){
-  .column-main{
+@media (width <= 600px) {
+  .column-main {
+    padding: 0;
+    width: 95%;
+  }
+  .column-main-dark {
+    background: #444a65;
     padding: 0;
     width: 95%;
   }
 }
 
 @media (600px < width < 1060px) {
-  .column-main{
+  .column-main {
+    padding: 0;
+    width: 70%;
+  }
+  .column-main-dark {
+    background: #444a65;
     padding: 0;
     width: 70%;
   }

@@ -3,6 +3,8 @@ import Card from "../Card/Card";
 import PlusSvg from "../../../assets/svg/plus.svg?react";
 import { useState } from "react";
 import { Button } from "@mui/material";
+import { $isDarkTheme } from "@/assets/store/theme";
+import { useUnit } from "effector-react";
 
 type Task = {
   id: number;
@@ -48,9 +50,12 @@ export default function Column({
   editTask,
   addTask,
 }: ColumnProps) {
-  const [inputFormActive, setInputFormActive] = useState<boolean>(false);
-  const [taskTitle, setTaskTitle] = useState<string>("");
 
+
+  const [inputFormActive, inputFormHandler] = useState(false)
+  const [taskTitle, setTaskTitle] = useState("")
+  const isDark = useUnit($isDarkTheme)
+  // добавление задачи только с title внизу колонки
   function handleAddTask() {
     const newTask: Task = {
       id: Date.now(),
@@ -63,12 +68,12 @@ export default function Column({
 
     addTask(newTask);
     setTaskTitle("");
-    setInputFormActive(false);
+    inputFormHandler(false)
   }
 
   return (
-    <div className={styles["column-main"]} onClick={() => {
-      setInputFormActive(false)
+    <div className={`${styles["column-main"]} ${isDark === "light" ? "" :  styles["column-main-dark"]}`} onClick={() => {
+      inputFormHandler(false)
       setTaskTitle("")
       }}>
       <div>
@@ -77,8 +82,7 @@ export default function Column({
           <Card
             key={task.id}
             task={task}
-            editTask={() => editTask(task)}
-            
+            editTaskProp={editTask}
           />
         ))}
       </div>
@@ -95,9 +99,17 @@ export default function Column({
           <Button
             fullWidth
             size="large"
-            onClick={() => setInputFormActive(!inputFormActive)}
+            onClick={() => inputFormHandler(!inputFormActive)}
+            sx={{
+              "&.MuiButtonBase-root": {
+                backgroundColor: isDark === "dark" ? "rgba(4, 21, 93, 0.4)" : "rgba(11, 57, 245, 0.04)",
+                height: "50px",
+                margin: "10px",
+                borderRadius: "20px",
+              }
+            }}
           >
-            <PlusSvg stroke="#3D3E38" width="25px" height="25px" />
+            <PlusSvg stroke={ isDark === "dark" ? "#1976D2" :"#3D3E38"} width="25px" height="25px" />
             <p style={{margin: "10px"}}>add new task</p>
           </Button>
         )}

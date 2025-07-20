@@ -5,6 +5,14 @@ header{
   background: #000A83;
   align-items: center;
   justify-content: center;
-  justify-content: space-around;
   color: #fff;
+  gap: 50px;
+}
+
+@media (max-width: 460px){
+  header{
+  gap: 10px;
+  font-size: 13px;
+}
+
 }

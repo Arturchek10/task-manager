@@ -1,10 +1,24 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useState } from "react";
+// import { useState } from "react";
 import Button from "@mui/material/Button";
 import Input from "@mui/material/Input";
 import Autocomplete from "@mui/material/Autocomplete";
 import { TextField } from "@mui/material";
 import styles from "./EditTaskPage.module.css";
+import { useUnit } from "effector-react";
+import { useEffect } from "react";
+import {
+  $allPriorities,
+  $allTags,
+  $title,
+  $description,
+  $priority,
+  $tag,
+  changeTitle,
+  changeDescription,
+  changePriority,
+  changeTag,
+} from "../../store/form";
 
 type Task = {
   id: number;
@@ -21,6 +35,9 @@ type EditTasksProps = {
 };
 
 export default function EditTaskPage({ allTasks, updateTask }: EditTasksProps) {
+
+  const [title,description,priority, tag, allPriorities, allTags] = useUnit([$title, $description, $priority, $tag, $allPriorities, $allTags])
+
   // по :id в пути узнаем на какой мы задаче находимся
   const params = useParams();
   const id = params.id;
@@ -29,13 +46,15 @@ export default function EditTaskPage({ allTasks, updateTask }: EditTasksProps) {
   // находим в массиве всех задач ту на которую мы нажали
   const task = allTasks.find((task) => task.id === Number(id));
 
-  const [title, setTitle] = useState(task?.title || "");
-  const [description, setDescription] = useState(task?.description || "");
-  const [priority, setPriority] = useState(task?.priority || "");
-  const [tag, setTag] = useState(task?.tag || "");
+  useEffect(() => {
+    if (task){
+      changeTitle(task.title)
+      changeDescription(task.description)
+      changePriority(task.priority)
+      changeTag(task.tag)
+    }
+  }, [task]);
 
-  const allPrioity = ["low", "medium", "high"];
-  const allTags = ["Bug", "Feature", "Docs", "Test", "Refactor"];
   function handleSave() {
     if (!task) {
       console.error("задача не выбрана");
@@ -52,6 +71,7 @@ export default function EditTaskPage({ allTasks, updateTask }: EditTasksProps) {
         title: title.trim(),
         description: description.trim(),
         priority: priority,
+        tag: tag
       };
       updateTask(updatedTask);
       navigate("/");
@@ -69,7 +89,7 @@ export default function EditTaskPage({ allTasks, updateTask }: EditTasksProps) {
           fullWidth
           type="text"
           value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={(e) => changeTitle(e.target.value)}
           className={styles["title-input"]}
         />
       </label>
@@ -79,7 +99,7 @@ export default function EditTaskPage({ allTasks, updateTask }: EditTasksProps) {
           fullWidth
           type="text"
           value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          onChange={(e) => changeDescription(e.target.value)}
         />
       </label>
 
@@ -92,7 +112,7 @@ export default function EditTaskPage({ allTasks, updateTask }: EditTasksProps) {
           renderInput={(params) => (
             <TextField {...params} label="tag"></TextField>
           )}
-          onChange={(e, newVal: string | null) => setTag(newVal ?? "")}
+          onChange={(e, newVal: string | null) => changeTag(newVal ?? "")}
         />
       </label>
 
@@ -101,11 +121,11 @@ export default function EditTaskPage({ allTasks, updateTask }: EditTasksProps) {
         <Autocomplete
           disablePortal
           value={priority}
-          options={allPrioity}
+          options={allPriorities}
           renderInput={(params) => (
             <TextField {...params} label="priority"></TextField>
           )}
-          onChange={(e, newVal: string | null) => setPriority(newVal ?? "")}
+          onChange={(e, newVal: string | null) => changePriority(newVal ?? "")}
         />
       </label>
       <div className={styles["btn-div"]}>
