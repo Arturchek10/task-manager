@@ -29,6 +29,11 @@ export default function App() {
     localStorage.setItem("theme", isDark);
   }, [isDark]);
 
+  useEffect(() => {
+    localStorage.setItem("allTasks", JSON.stringify(allTasks));
+    console.log(allTasks);
+  }, [allTasks]);
+  
   return (
     <BrowserRouter>
       {/* <div className={`${styles.main} ${isDark ? styles["dark-main"] : ""}`}> */}

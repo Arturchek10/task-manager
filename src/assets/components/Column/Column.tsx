@@ -5,7 +5,6 @@ import { useState } from "react";
 import { Button } from "@mui/material";
 import { $isDarkTheme } from "@/assets/store/theme";
 import { useUnit } from "effector-react";
-
 type Task = {
   id: number;
   title: string;
