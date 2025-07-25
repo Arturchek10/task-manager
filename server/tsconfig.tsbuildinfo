@@ -1,1 +1,1 @@
-{"root":["./src/index.ts"],"version":"5.8.3"}
+{"root":["./src/index.ts","./src/controllers/taskcontrollers.ts","./src/data/tasks.ts","./src/routes/tasksroutes.ts"],"version":"5.8.3"}
