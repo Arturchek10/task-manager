@@ -78,23 +78,23 @@ DELETE /api/tasks/:id
 - 
 ## Как запустить проект
 
-Клонировать репозиторий
+Клонировать репозиторий  
 git clone https://github.com/Arturchek10/task-manager.git
 
-Перейти в папку проекта
-cd task-manager
+Перейти в папку проекта  
+`cd task-manager`
 
-Установить зависимости для фронтенда
-npm install
+Установить зависимости для фронтенда  
+`npm install`
 
-Запустить фронтенд
-npm run dev
+Запустить фронтенд  
+`npm run dev`
 
-Перейти в папку сервера
-cd server
+Перейти в папку сервера  
+`cd server`
 
-Установить зависимости для сервера
-npm install
+Установить зависимости для сервера  
+`npm install`
 
-Запустить сервер
-npm run start
+Запустить сервер  
+`npm run start`
