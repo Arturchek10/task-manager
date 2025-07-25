@@ -4,54 +4,45 @@ import TaskList from "./assets/components/TaskList/TaskList";
 import styles from "./App.module.css";
 import EditTaskPage from "./assets/pages/EditTaskPage/EditTaskPage";
 import { useUnit } from "effector-react";
-import { $allTasks, addTask, updateTask } from "./assets/store/tasks";
-import { $isDarkTheme } from "./assets/store/theme";
+import { $isDarkTheme } from "./assets/features/store/theme";
 import { useEffect } from "react";
+import { fetchTasksFn, $tasks, createTaskFn} from "./assets/features/tasks/tasks";
 
 export default function App() {
-  type Task = {
-    id: number;
-    title: string;
-    description: string;
-    status: string;
-    priority: string;
-    tag: string;
-  };
-
-  const [allTasks, addTaskFn, updateTaskFn] = useUnit([
-    $allTasks,
-    addTask,
-    updateTask,
-  ]);
+  
+  const [tasks, fetchTasks] = useUnit([$tasks, fetchTasksFn])
   const [isDark] = useUnit([$isDarkTheme]);
   // сохранение в localStorage темы при изменении стора isDark
   useEffect(() => {
     localStorage.setItem("theme", isDark);
   }, [isDark]);
 
+  // загрузка задач с сервера
   useEffect(() => {
-    localStorage.setItem("allTasks", JSON.stringify(allTasks));
-    console.log(allTasks);
-  }, [allTasks]);
-  
+    fetchTasks()
+  }, [fetchTasks])
+
   return (
     <BrowserRouter>
-      {/* <div className={`${styles.main} ${isDark ? styles["dark-main"] : ""}`}> */}
-      <div className={`${styles.main} ${isDark === "light" ? "" : styles["dark-main"]}`}>
+      <div
+        className={`${styles.main} ${
+          isDark === "light" ? "" : styles["dark-main"]
+        }`}
+      >
         <Header />
         <div
-          className={`${styles["list-wrapper"]} ${ isDark === "light" ? "" : styles["dark-wrapper"]}`}
+          className={`${styles["list-wrapper"]} ${
+            isDark === "light" ? "" : styles["dark-wrapper"]
+          }`}
         >
           <Routes>
             <Route
               path="/"
-              element={<TaskList allTasks={allTasks} addTask={addTaskFn} />}
+              element={<TaskList />}
             />
             <Route
               path="/task/:id"
-              element={
-                <EditTaskPage allTasks={allTasks} updateTask={updateTaskFn} />
-              }
+              element={<EditTaskPage allTasks={tasks} />}
             />
           </Routes>
         </div>

@@ -56,6 +56,15 @@
   margin-bottom: 5px;
 }
 
+.symbol-counter{
+  opacity: 0.9;
+  font-size: 10px;
+}
+.symbol-counter-dark{
+  color: white;
+}
+
+
 @media (width <= 600px) {
   .column-main {
     padding: 0;

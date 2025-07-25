@@ -1,12 +1,9 @@
-import styles from "./toogle.module.css"
-import {$isDarkTheme, toggleTheme} from "../../store/theme"
-import {useUnit} from "effector-react"
+import styles from "./toogle.module.css";
+import { $isDarkTheme, toggleTheme } from "../../features/store/theme";
+import { useUnit } from "effector-react";
 
 export default function Toggle() {
-
-  const [isDark, toggle] = useUnit([$isDarkTheme, toggleTheme])
-
-
+  const [isDark, toggle] = useUnit([$isDarkTheme, toggleTheme]);
 
   return (
     <div className={styles["toggle-div"]}>

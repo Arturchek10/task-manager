@@ -1,22 +1,9 @@
 import { useState } from "react";
 import Column from "../Column/Column";
-import styles from "./TaskList.module.css";
+import {Task} from "../../features/types/types"
 
-type Task = {
-  id: number;
-  title: string;
-  description: string;
-  status: string;
-  priority: string;
-  tag: string;
-};
+export default function TaskList() {
 
-type TaskListProps = {
-  allTasks: Task[];
-  addTask: (newTask: Task) => void
-};
-
-export default function TaskList({ allTasks, addTask }: TaskListProps) {
   const categories: string[] = ["To Do", "In Process", "Done"];
 
   // выбранная для редактирования
@@ -29,9 +16,7 @@ export default function TaskList({ allTasks, addTask }: TaskListProps) {
         <Column
           key={category}
           value={category}
-          tasks={allTasks.filter((task) => task.status === category)}
           editTask={setSelectedTask}
-          addTask={addTask}
         />
       ))}
     </>

@@ -10,7 +10,7 @@
 .list-wrapper {
   display: flex;
   justify-content: space-around;
-  background-color: #fff;
+  background:  linear-gradient(-45deg, rgb(137, 171, 227) 0%, rgb(242, 221, 222) 100%);
   text-align: center;
   width: 80%;
   height: 80%;

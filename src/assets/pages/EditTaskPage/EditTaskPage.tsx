@@ -7,6 +7,9 @@ import { TextField } from "@mui/material";
 import styles from "./EditTaskPage.module.css";
 import { useUnit } from "effector-react";
 import { useEffect } from "react";
+import { updatedTaskFn } from "@/assets/features/tasks/tasks";
+import {Task} from "../../features/types/types"
+import dayjs from "dayjs";
 import {
   $allPriorities,
   $allTags,
@@ -14,70 +17,68 @@ import {
   $description,
   $priority,
   $tag,
+  $status,
   changeTitle,
   changeDescription,
   changePriority,
   changeTag,
-} from "../../store/form";
-
-type Task = {
-  id: number;
-  title: string;
-  description: string;
-  status: string;
-  priority: string;
-  tag: string;
-};
+  changeStatus,
+} from "../../features/store/form";
 
 type EditTasksProps = {
   allTasks: Task[];
-  updateTask: (updatedTask: Task) => void;
 };
 
-export default function EditTaskPage({ allTasks, updateTask }: EditTasksProps) {
-
-  const [title,description,priority, tag, allPriorities, allTags] = useUnit([$title, $description, $priority, $tag, $allPriorities, $allTags])
-
+export default function EditTaskPage({ allTasks }: EditTasksProps) {
+  const [title, description, priority, tag, allPriorities, allTags, status] = useUnit([
+    $title,
+    $description,
+    $priority,
+    $tag,
+    $allPriorities,
+    $allTags,
+    $status
+  ]);
   // по :id в пути узнаем на какой мы задаче находимся
   const params = useParams();
-  const id = params.id;
+  const id = Number(params.id);
   const navigate = useNavigate();
 
   // находим в массиве всех задач ту на которую мы нажали
   const task = allTasks.find((task) => task.id === Number(id));
 
   useEffect(() => {
-    if (task){
-      changeTitle(task.title)
-      changeDescription(task.description)
-      changePriority(task.priority)
-      changeTag(task.tag)
+    if (task) {
+      changeTitle(task.title);
+      changeDescription(task.description);
+      changePriority(task.priority);
+      changeTag(task.tag);
+      changeStatus(task.status);
     }
   }, [task]);
 
-  function handleSave() {
+  function handleUpdate(task: Task | undefined) {
     if (!task) {
-      console.error("задача не выбрана");
-      return;
+      alert("задача не найдена")
     }
-    if (!title.trim) {
-      console.error("введите название");
-      return;
+    const updatedTask: Task = {
+      id: id,
+      title: title,
+      description: description,
+      status: status,
+      priority: priority,
+      tag: tag,
+      date: dayjs().format("DDMMM YYYY")
     }
 
-    try {
-      const updatedTask: Task = {
-        ...task,
-        title: title.trim(),
-        description: description.trim(),
-        priority: priority,
-        tag: tag
-      };
-      updateTask(updatedTask);
+    updatedTaskFn(updatedTask)
+    .then(() => {
       navigate("/");
-    } catch {
-      console.error("ошибка при сохранении задачи");
-    }
+    })
+    .catch((err) => {
+      alert("не удалось обновить задачу " + err);
+    });
+  
   }
 
   return (
@@ -135,7 +136,11 @@ export default function EditTaskPage({ allTasks, updateTask }: EditTasksProps) {
 
         <Button
           variant="contained"
-          onClick={handleSave}
+          onClick={() => {
+            if (task){
+              handleUpdate(task);
+            }
+          }}
           disabled={!title.trim()}
         >
           Сохранить
