@@ -45,7 +45,6 @@
 
 - `/` — Главная страница со списком задач (TaskList)
 - `/task/:id` — Страница редактирования задачи (TaskDetails)
-
 ---
 
 ## Компоненты
@@ -55,15 +54,47 @@
 - **Column** — колонка определененного статуса в которую помещаются карточки
 - **TaskList** - все колонки
 ---
+## API:
+- базовый путь /tasks
+
+GET /api/tasks
+Получить список задач. Поддерживает фильтрацию по параметрам title и date (в query).
+http://localhost:3000/tasks?date=01Jan - получение задач с указанной датой
+
+POST /api/tasks
+Создать новую задачу. В теле запроса JSON с обязательным полем title.
+
+PATCH /api/tasks/:id
+Обновить задачу по ID. В теле запроса JSON с полями, которые нужно изменить (например, title или done).
+
+Удалить задачу по ID.
+DELETE /api/tasks/:id
 
 ## Ветки:
 
 - ✅ [`main`](https://github.com/Arturchek10/task-manager/tree/main) — первое ДЗ
 - ✅ [`dz-2`](https://github.com/Arturchek10/task-manager/tree/dz-2) — второе ДЗ 
-
+- ✅ [`dz-3`](https://github.com/Arturchek10/task-manager/tree/dz-3) — третье ДЗ
+- 
 ## Как запустить проект
 
-1. Клонировать репозиторий:
-
-```bash
+Клонировать репозиторий
 git clone https://github.com/Arturchek10/task-manager.git
+
+Перейти в папку проекта
+cd task-manager
+
+Установить зависимости для фронтенда
+npm install
+
+Запустить фронтенд
+npm run dev
+
+Перейти в папку сервера
+cd server
+
+Установить зависимости для сервера
+npm install
+
+Запустить сервер
+npm run start
